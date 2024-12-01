@@ -76,7 +76,6 @@ export class UsersService {
       if (!filteredUsers.length) {
         throw new NotFoundException('No users found for the provided role');
       }
-
       // Return the filtered users
       return filteredUsers;
     }
