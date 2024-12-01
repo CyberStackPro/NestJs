@@ -64,17 +64,28 @@ export class UsersService {
       role: 'ENGINEER',
     },
   ];
-
   findAll(role?: 'INTERN' | 'ENGINEER' | 'ADMIN') {
+    // Check if a role is provided
     if (role) {
-      return this.users.filter((user) => user.role === role);
+      // Filter users based on the role
+      const filteredUsers = this.users.filter((user) => user.role === role);
+
+      // If no users match the role, return all users
+      if (!filteredUsers.length) {
+        return this.users;
+      }
+
+      // Return the filtered users
+      return filteredUsers;
     }
 
+    // If no role is provided, return all users
     return this.users;
   }
 
   findOne(id: number) {
     const user = this.users.find((user) => user.id === id);
+    if (!user) return { message: 'Invalid User', statusCode: 400 };
 
     return user;
   }
