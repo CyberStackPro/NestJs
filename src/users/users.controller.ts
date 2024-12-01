@@ -8,16 +8,17 @@ import {
   Patch,
   Post,
   Query,
+  ValidationPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, Role } from './dto/create-user.dto';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersServices: UsersService) {}
   @Get() // GET /users
-  findAll(@Query('role', ParseIntPipe) role?: 'INTERN' | 'ENGINEER' | 'ADMIN') {
+  findAll(@Query('role') role?: Role) {
     return this.usersServices.findAll(role);
   }
 
@@ -28,7 +29,7 @@ export class UsersController {
 
   @Post() // POST /users
   create(
-    @Body()
+    @Body(ValidationPipe)
     user: CreateUserDto,
   ) {
     return this.usersServices.create(user);
@@ -36,8 +37,8 @@ export class UsersController {
 
   @Patch(':id') // PATCH /users/:id
   updateOne(
-    @Param('id') id: string,
-    @Body()
+    @Param('id') id: number,
+    @Body(ValidationPipe)
     updateUser: UpdateUserDto,
   ) {
     return this.usersServices.updateOne(+id, updateUser);
