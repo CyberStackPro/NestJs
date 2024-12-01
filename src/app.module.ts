@@ -6,6 +6,7 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { MyLoggerModule } from './my-logger/my-logger.module';
 @Module({
   imports: [
     UsersModule,
@@ -23,6 +24,7 @@ import { AppService } from './app.service';
         limit: 10,
       },
     ]),
+    MyLoggerModule,
   ],
   controllers: [AppController],
   providers: [
